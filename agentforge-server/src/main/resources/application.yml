@@ -1,0 +1,71 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+spring:
+  application:
+    name: agentforge
+
+  # 文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  # 数据库配置 - H2 内存数据库（开发环境）
+  datasource:
+    url: jdbc:h2:mem:agentforge;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # 如需使用 MySQL，取消注释以下配置并注释上方 H2 配置：
+  # datasource:
+  #   url: jdbc:mysql://localhost:3306/agentforge?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+  #   driver-class-name: com.mysql.cj.jdbc.Driver
+  #   username: root
+  #   password: 123456
+  #   hikari:
+  #     maximum-pool-size: 10
+  #     minimum-idle: 5
+  #     idle-timeout: 300000
+  #     connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  sql:
+    init:
+      mode: never
+
+# AgentForge 配置
+agentforge:
+  llm:
+    # API Key（请替换为你自己的 API Key）
+    api-key: ${MIMO_API_KEY:your-api-key-here}
+    # API 地址（小米 MIMO 官方平台）
+    base-url: ${MIMO_BASE_URL:https://token-plan-cn.xiaomimimo.com/v1}
+    # 模型名称 (可选: mimo-v2.5, mimo-v2.5-pro)
+    model: ${MIMO_MODEL:mimo-v2.5}
+    # 超时时间（秒）
+    timeout: 120
+
+logging:
+  level:
+    com.agentforge: INFO
+    root: INFO
